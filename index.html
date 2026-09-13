@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Latihan Aqidah Akhlak — 40 Soal</title>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#f3f6fb;color:#172033}
+.wrap{max-width:850px;margin:auto;padding:18px}
+header{background:#172033;color:white;border-radius:18px;padding:22px;margin-bottom:16px;box-shadow:0 8px 24px #0001}
+h1{margin:0 0 6px;font-size:24px} header p{margin:0;opacity:.85}
+.bar{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:12px 0;font-size:14px}
+.progress{height:8px;background:#dfe5ef;border-radius:99px;overflow:hidden;margin-bottom:18px}
+.progress i{display:block;height:100%;background:#4f7cff;width:0%;transition:.2s}
+.card{background:white;border-radius:16px;padding:20px;margin-bottom:14px;box-shadow:0 4px 16px #0000000b}
+.num{font-weight:800;color:#4f7cff;margin-bottom:8px} .q{font-size:17px;line-height:1.55;margin-bottom:14px}
+.option{display:block;border:1px solid #dce2ec;border-radius:12px;padding:12px 14px;margin:9px 0;cursor:pointer;transition:.15s}
+.option:hover{background:#f5f8ff;border-color:#9fb4ff} .option input{margin-right:9px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;position:sticky;bottom:12px;background:#f3f6fb;padding:8px 0}
+button{border:0;border-radius:12px;padding:12px 18px;font-weight:700;cursor:pointer;background:#4f7cff;color:white}
+button.secondary{background:white;color:#172033;border:1px solid #dce2ec}
+#result{display:none;background:white;border-radius:16px;padding:20px;margin:16px 0;box-shadow:0 4px 16px #0001}
+.score{font-size:34px;font-weight:900} .wrong{border-left:4px solid #e05252;padding-left:12px;margin:12px 0}
+small{color:#657085} 
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>📝 Latihan Aqidah Akhlak — 40 Soal</h1>
+<p>Soal berasal dari foto yang kamu kirim. Urutan nomor diacak. Pilih satu jawaban untuk tiap soal.</p>
+</header>
+<div class="bar"><span id="progressText">Terjawab 0/40</span><span id="status">Belum dikumpulkan</span></div>
+<div class="progress"><i id="progress"></i></div>
+<div id="quiz"></div>
+<div id="result"></div>
+<div class="actions">
+<button onclick="submitQuiz()">Kumpulkan Jawaban</button>
+<button class="secondary" onclick="shuffleQuiz()">🔀 Acak Ulang</button>
+<button class="secondary" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆️ Ke Atas</button>
+</div>
+</div>
+<script>
+const original = [{"q": "Ilmu pengetahuan memberikan kita berbagai wawasan dan pengetahuan tentang segala sesuatu yang ada dalam kehidupan dan di dunia. Yang dimaksud dengan orang yang berilmu adalah....", "o": ["Orang yang bersekolah tinggi", "Orang yang banyak mengaji", "Orang yang berpengetahuan banyak", "Orang yang banyak membaca"], "a": 2}, {"q": "Kreatif artinya memiliki daya atau kemampuan untuk menciptakan sesuatu yang bermanfaat baik untuk dirinya maupun untuk orang lain dalam rangka mempermudah kehidupannya. Salah satu cara yang salah dalam mengasah kreativitas adalah....", "o": ["Banyak membaca", "Sering bepergian", "Pasrah pada nasib", "Berfikir serius"], "a": 2}, {"q": "Untuk meningkatkan daya produktivitas dapat dilakukan dengan beberapa media dan metode, salah satunya adalah....", "o": ["Menjaga semangat belajar", "Menjaga pertemanan", "Menyesali kondisi saat ini", "Kerja tanpa kenal waktu"], "a": 0}, {"q": "Allah Ta'ala telah mempercayakan manusia sebagai khalifah di bumi, sehingga kemakmuran dunia diserahkan kepada manusia. Salah satu bentuk tanggung jawabnya adalah....", "o": ["Mengelola demi kepentingan golongannya", "Membiarkan kerusakan terjadi", "Menyerahkan kepada orang lain", "Menjaga dan melestarikan bumi"], "a": 3}, {"q": "Dalam hadis Rasulullah bersabda: “Barang siapa menginginkan kebahagiaan dunia, maka tuntutlah ilmu dan barang siapa yang ingin kebahagiaan akhirat, tuntutlah ilmu dan barangsiapa yang menginginkan keduanya, maka....”", "o": ["Memanfaatkan ilmu pengetahuan", "Tuntutlah ilmu pengetahuan", "Mengertilah akan ilmu", "Segeralah berilmu"], "a": 1}, {"q": "Allah sangat memuliakan orang yang berilmu, di antara kemuliaan yang diperoleh orang yang berilmu kecuali....", "o": ["Derajat tinggi di sisi Allah", "Rasa takut pada Allah", "Mudah menuju surga", "Kreatif"], "a": 3}, {"q": "Berikut ini adalah upaya atau langkah-langkah agar tetap produktif kecuali....", "o": ["Kerja keras", "Menjaga semangat belajar dan berkarya", "Selalu bangga dengan karyanya", "Evaluasi dan pengujian"], "a": 2}, {"q": "Dalam kehidupan kita mengenal istilah produktif. Sesuatu dikatakan produktif apabila....", "o": ["Banyak berkarya/hasil", "Pasif", "Aktif", "Energik"], "a": 0}, {"q": "Ide bisa didapat dari mana saja, sehingga seseorang dapat mengembangkannya. Secara sederhana suatu ide dapat dikatakan tidak kreatif apabila ide tersebut....", "o": ["Bermanfaat", "Asli", "Realistis", "Menjiplak karya"], "a": 3}, {"q": "Allah menciptakan manusia memiliki kelebihan dibanding makhluk lain. Salah satu perbedaan manusia dengan makhluk Allah lainnya adalah....", "o": ["Tugas ibadah manusia", "Kemampuan berkomikasi", "Naluri saja", "Kemampuan kreativitas dan akal pikirannya"], "a": 3}, {"q": "Al-Qur'an Surah Al-Jum'ah ayat 10 yang bergaris tebal artinya.... (فَإِذَا قُضِيَتِ الصَّلَاةُ فَانْتَشِرُوا فِي الْأَرْضِ وَابْتَغُوا مِنْ فَضْلِ اللَّهِ)", "o": ["Maka bertebaranlah di bumi", "Jika selesai sholat", "Jika selesai pekerjaanmu", "Carilah karunia Allah"], "a": 3}, {"q": "Pengertian dari segi bahasa kata produktif berasal dari bahasa Inggris yaitu kata “produce” yang berarti....", "o": ["Menghasilkan karya", "Belajar tekun", "Evaluasi", "Menambah wawasan"], "a": 0}, {"q": "Banyak faktor yang mempengaruhi kreativitas seseorang, di bawah ini adalah faktor pendorong kreativitas kecuali....", "o": ["Banyak membaca", "Sering mengamati", "Kritik dan saran", "Rasa takut"], "a": 3}, {"q": "Islam mengajarkan agar umatnya bekerja keras untuk kebahagiaannya di dunia akhirat, hal ini bertujuan agar manusia....", "o": ["Lebih tangguh dari manusia lain", "Tidak bermalas-malasan", "Bisa menentukan nasibnya dan orang lain", "Bisa melebihi orang lain"], "a": 1}, {"q": "Allah Ta'ala menciptakan manusia di muka bumi bertugas sebagai khalifah, artinya keberadaan manusia di bumi sebagai diharapkan menjadi....", "o": ["Pembentuk komunitas", "Penebar Rahmat lil 'alamin", "Pencipta ke dua", "Makhluk Allah"], "a": 1}, {"q": "Fulan seorang siswa yang selain belajar agama di madrasah dia juga rajin mengikuti pengajian di majlis ilmu. Fulan menyadari bahwa belajar ilmu agama merupakan....", "o": ["Kewajiban bagi semua umat Islam", "Sunah bagi semua umat Islam", "Tidak wajib bagi semua umat Islam", "Cahaya bagi semua umat Islam"], "a": 0}, {"q": "Secara umum ilmu dikelompokkan menjadi dua yaitu ilmu umum dan ilmu “din”. Yang dimaksud dengan ilmu “Din” adalah....", "o": ["Ilmu umum", "Ilmu agama", "Ilmu bintang", "Ilmu kedokteran"], "a": 1}, {"q": "Kata bijak: “Keutamaan seorang ‘alim (berilmu) atas seorang ‘abid (ahli ibadah) seperti....”", "o": ["Keutamaan bulan atas seluruh semesta", "Keutamaan bulan atas seluruh bintang", "Keutamaan manusia atas seluruh bintang", "Keutamaan Nabi atas seluruh bintang"], "a": 1}, {"q": "Dalam sebuah hadis Rasulullah Shallallahu ‘Alaihi Wasalam bersabda: “Jika manusia mati terputuslah amalnya kecuali tiga perkara.” Berikut ini yang tidak termasuk dari tiga perkara tersebut adalah....", "o": ["Sedekah jariyah", "Ilmu yang manfaat", "Anak yang sholeh", "Harta yang banyak"], "a": 3}, {"q": "Selain orang yang beriman, Allah juga akan meninggikan derajat bagi orang-orang....", "o": ["Percaya diri", "Berilmu pengetahuan", "Berjihad", "Komunikatif"], "a": 1}, {"q": "Pada hari kiamat didahului dengan peristiwa malaikat meniup sangkakala sebanyak tiga kali, di bawah yang bukan nama tiupan hari akhir adalah....", "o": ["Tiupan Mahsyar", "Tiupan ba'ats", "Tiupan faza'", "Tiupan isha'qi"], "a": 0}, {"q": "Seorang muslim yang percaya dan yakin akan datangnya hari kiamat memiliki ciri-ciri dalam berperilaku di antaranya adalah....", "o": ["Syukur akan nikmat Allah", "Patuh perintah rasul", "Percaya kepada malaikat", "Ketaqwaan kepada Allah Ta'ala"], "a": 3}, {"q": "Awal datangnya hari akhir didahului dengan ditiupnya sangkakala sebanyak tiga kali. Nama malaikat yang bertugas meniup sangkakala adalah....", "o": ["Israfil", "Nangkir", "Rokib", "Atid"], "a": 0}, {"q": "Hari akhir merupakan hari musnahnya dunia beserta isinya. Peristiwa musnahnya alam semesta beserta isinya dikenal dengan istilah....", "o": ["Yaumul asyir", "Hari Yang sulit", "Yaumu sa'ah", "Yaumul khuruj"], "a": 2}, {"q": "Rukun iman adalah hal-hal yang wajib diyakini oleh para mukminin. Di bawah ini yang termasuk rukun iman adalah....", "o": ["Iman bahwa puasa adalah wajib", "Iman bahwa sholat itu wajib", "Iman bahwa Hari Akhir itu ada", "Iman bahwa haji hanya untuk yang mampu"], "a": 2}, {"q": "Saat sangkakala ditiup malaikat terkejut, gentarlah semua makhluk yang di langit dan di bumi. Hal itu tersebut pada Al-Qur'an....", "o": ["Surat An-Naml : 87", "Surat Al-Qori'ah : 11", "Surat Al-Zalzalah : 7", "Surat Al-Zalzalah : 8"], "a": 0}, {"q": "Mengacu penjelasan pada salah satu hadis Rasulullah bahwa Hari kiamat tidak akan datang sebelum munculnya Ya'juj dan Ma'juj. Arti dari Ya'juj Ma'juj adalah....", "o": ["Orang-orang yang suka berbohong", "Umat yang suka merusak dan menghancurkan", "Umat yang suka adu domba", "Orang-orang yang suka berbuat kebaikan"], "a": 1}, {"q": "Al-Qur'an surat Al-Haj : 7 di bawah ini mempunyai arti.... (وَأَنَّ السَّاعَةَ آتِيَةٌ لَا رَيْبَ فِيهَا وَأَنَّ اللَّهَ يَبْعَثُ مَنْ فِي الْقُبُورِ)", "o": ["Apabila bumi diguncangkan Allah", "Apa bila matahari direndahkan Malaikat", "Allah mengumpulkan semua orang di mahsyar", "Allah membangkitkan semua orang di dalam kubur"], "a": 3}, {"q": "Ada banyak nama-nama yang berhubungan dengan hari akhir, salah satu nama lain peristiwa hari akhir di antaranya adalah yaumul Asyir, yang artinya....", "o": ["Hari yang sulit", "Yaumul diin", "Hari yang menghancurkan", "Hari kebahagiaan"], "a": 0}, {"q": "Salah satu peristiwa hari akhir adalah hari di mana manusia akan menerima hasil dari usahanya ketika di dunia. Peristiwa itu terjadi pada yaumul jaza yang artinya....", "o": ["Hari pembalasan", "Hari akan datang", "Hari akhir", "Hari malapetaka"], "a": 0}, {"q": "Pada peristiwa hari akhir dibagi menjadi beberapa tahap. Tahapan kedua dari peristiwa hari akhir adalah hari penghitungaan semua amal manusia atau disebut dengan....", "o": ["Yaumul jaza", "Yaumul ba'ats", "Yaumul khuruj", "Yaumul asyr"], "a": 1}, {"q": "Peristiwa at-Tammah Al Kubra artinya malapetaka yang besar disebutkan dalam Al-Qur'an....", "o": ["Q.S Maryam : 39", "Q.S An-Nazi'at : 34", "Q.S Al-Ghosyiyah : 1", "Q.S Al-Zalzalah : 1"], "a": 1}, {"q": "Hari akhir memiliki banyak nama seperti disebutkan dalam Q.S Al-Ghosyiyah Ayat 1 menjelaskan tentang salah satu dari nama-nama lain hari kiamat yaitu....", "o": ["Yaumul tanad", "Al-Ghosyiyah", "Yaumul hisab", "Yaumud taghobun"], "a": 1}, {"q": "Pada hari itu manusia mendengar teriakan dengan sebenar-benarnya itulah hari keluar (dari kubur) atau disebut dengan....", "o": ["Yaumul hisab", "Yaumul jaza", "Yaumul khuruj", "Yaumul tanad"], "a": 2}, {"q": "Salah satu tahapan hari akhir adalah hari pembalasan amal, dimana manusia ditetapkan masuk surga atau neraka disebut dengan....", "o": ["Yaumul asyir", "Yaumul baast", "Yaumul jaza'", "Yaumul qiyamah"], "a": 2}, {"q": "Suatu tahapan hari Kiamat saat semua amal perbuatan manusia akan ditimbang dengan timbangan Allah, tahapan tersebut adalah....", "o": ["Mizan", "Jaza'", "Barzah", "Neraca"], "a": 0}, {"q": "Setelah peristiwa dihancurnya seluruh dunia beserta isinya manusia akan dibangkitkan kembali. Dibangkitkannya manusia setelah dimatikan pada hari kiamat bertujuan....", "o": ["Untuk mempertanggungjawabkan amal", "Untuk berkumpul dengan kerabatnya", "Untuk menuju surga semuanya", "Menata kembali setelah dunia hancur"], "a": 0}, {"q": "Setiap jiwa akan mengalami kematian, hal ini ditegaskan dalam Al-Qur'an surat....", "o": ["Q.S Ali-Imran : 185", "Q.S Ali-Imran : 100", "Q.S Mujadilah : 7", "Q.S An-Naml : 65"], "a": 0}, {"q": "Terjemahan dari kalimat yang dipertebal di bawah ini adalah.... (يَوْمَئِذٍ يَصْدُرُ النَّاسُ أَشْتَاتًا لِيُرَوْا أَعْمَالَهُمْ)", "o": ["Supaya diperlihatkan kepada mereka (balasan) pekerjaan mereka", "Jagalah dirimu dari nyalanya api neraka", "Manusia menerima balasan atas perbuatannya", "Dunia hanyalah kesenangan sementara dan menipu"], "a": 0}, {"q": "Salah satu peristiwa yang dialami manusia dimana akan merasakan nikmat atau siksa kubur yang peristiwanya akan terjadi di....", "o": ["Alam dunia", "Alam mimpi", "Neraka", "Alam barzah"], "a": 3}];
+let data = [];
+function shuffle(a){return [...a].sort(()=>Math.random()-0.5)}
+function shuffleQuiz(){
+  data=shuffle(original);
+  document.getElementById('result').style.display='none';
+  document.getElementById('status').textContent='Belum dikumpulkan';
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function render(){
+ const quiz=document.getElementById('quiz');
+ quiz.innerHTML=data.map((x,i)=>`
+ <div class="card">
+  <div class="num">Soal ${i+1} dari 40</div>
+  <div class="q">${x.q}</div>
+  ${x.o.map((o,j)=>`<label class="option"><input type="radio" name="q${i}" value="${j}" onchange="updateProgress()"> ${String.fromCharCode(65+j)}. ${o}</label>`).join('')}
+ </div>`).join('');
+ updateProgress();
+}
+function updateProgress(){
+ let n=0;
+ data.forEach((_,i)=>{if(document.querySelector(`input[name="q${i}"]:checked`)) n++});
+ document.getElementById('progressText').textContent=`Terjawab ${n}/40`;
+ document.getElementById('progress').style.width=(n/40*100)+'%';
+}
+function submitQuiz(){
+ let score=0, answered=0, wrong=[];
+ data.forEach((x,i)=>{
+   const el=document.querySelector(`input[name="q${i}"]:checked`);
+   if(el){answered++; if(+el.value===x.a) score++; else wrong.push({i,x,chosen:+el.value})}
+ });
+ const pct=Math.round(score/40*100);
+ const result=document.getElementById('result');
+ result.style.display='block';
+ result.innerHTML=`<div class="score">${score}/40 (${pct})</div>
+ <p><b>Terjawab:</b> ${answered}/40 &nbsp; <b>Salah:</b> ${40-score}</p>
+ <p>${pct>=90?'🔥 Mantap banget!':pct>=75?'👍 Bagus, tinggal sedikit lagi!':'💪 Coba cek pembahasannya dan ulangi lagi.'}</p>
+ ${wrong.length?'<hr><h3>Yang perlu dicek</h3>'+wrong.map(w=>`<div class="wrong"><b>Soal ${w.i+1}:</b> ${w.x.q}<br>Jawabanmu: ${String.fromCharCode(65+w.chosen)}. ${w.x.o[w.chosen]}<br><b>Jawaban benar: ${String.fromCharCode(65+w.x.a)}. ${w.x.o[w.x.a]}</b></div>`).join(''):'<hr><h3>🎉 Semua jawaban benar!</h3>'}`;
+ document.getElementById('status').textContent='Sudah dikumpulkan';
+ result.scrollIntoView({behavior:'smooth'});
+}
+shuffleQuiz();
+</script>
+</body>
+</html>
